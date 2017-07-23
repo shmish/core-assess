@@ -1,0 +1,17 @@
+<h1>{{ corecomp.iCan }}</h1>
+<ul>
+{% for Bigidearubric in BigIdeaRubric.all %}
+    <li>{{ bigIdea.Bigidearubric.choice_text }}</li>
+{% endfor %}
+</ul>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'core:CES' corecomp.id %}" method="post">
+{% csrf_token %}
+{% for evidence in bigidearubric.choice_set.all %}
+	<select>
+		<option>{{ evidence.bigidearubric.gradelevel }}</option>
+	</select>
+{% endfor % }
+</form>

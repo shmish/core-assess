@@ -1,0 +1,23 @@
+<!-- <h1>{{ corecomp.iCan }}</h1>
+<ul>
+{% for Bigidearubric in BigIdeaRubric.all %}
+    <li>{{ bigIdea.Bigidearubric.choice_text }}</li>
+{% endfor %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+</ul> -->
+
+
+<!-- {% if bigidearubric_list %}
+	<form action="{% url 'core:submitted' %}" method="post">
+
+	{% csrf_token %}
+
+		<select>
+			<option>{{ bigidearubric_list.gradeLevel }}</option>
+		</select>
+	</form>
+{% endif %} -->
+
+{{ form.as_p }}
+

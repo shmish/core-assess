@@ -1,0 +1,9 @@
+{% if core_comp_list %}
+    <ul>
+    {% for corecomp in core_comp_list %}
+        <li><a href="{% url 'core:detail' corecomp.id %}">{{ corecomp.iCan }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
