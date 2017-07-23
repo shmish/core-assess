@@ -3,6 +3,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.forms import ModelForm
 from django import forms
 
+# Teachers or admin create a list of "I can statements" for each core competency
 class CoreComp(models.Model):
 	CORE_COMP = (
 		('CT', 'Critical Thinking'),
@@ -17,6 +18,8 @@ class CoreComp(models.Model):
 	def __str__(self):
 		return self.iCan
 		
+
+# Teachers or admin enter course details and curriculum Big Ideas
 class BigIdeaRubric(models.Model):
 	COURSE_NAME = (
 		('MA', 'Mathematics'),
@@ -35,6 +38,7 @@ class BigIdeaRubric(models.Model):
 	def __str__(self):
 		return self.courseName
 
+# Students can self-enrol their own details
 class Student(models.Model):
 	emailaddy = models.CharField(max_length=50)
 	first_name = models.CharField(max_length=30)
@@ -48,6 +52,8 @@ class StudentForm(ModelForm):
 		model = Student
 		fields = ['emailaddy', 'first_name', 'last_name', 'SIN']
 	
+# This is the self-assessment. Students choose grade, course, "I can" statement
+# Students write a description of their artifact, and the significance of their artifact in relation to the CC
 class Evidence(models.Model):
 	corecomp = models.ForeignKey(CoreComp, on_delete=models.CASCADE)
 	bigidearubric = models.ForeignKey(BigIdeaRubric, on_delete=models.CASCADE)
