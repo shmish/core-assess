@@ -16,7 +16,7 @@ class CoreComp(models.Model):
 	iCan = models.CharField(max_length=100)
 	core_comp = models.CharField(max_length=2, choices=CORE_COMP)
 	def __str__(self):
-		return self.iCan
+		return self.get_core_comp_display() + ':' + ' ' + self.iCan
 		
 
 # Teachers or admin enter course details and curriculum Big Ideas
@@ -36,7 +36,7 @@ class BigIdeaRubric(models.Model):
 	courseName = models.CharField(max_length=2, choices=COURSE_NAME)
 	bigIdea = models.CharField(max_length=200)
 	def __str__(self):
-		return self.courseName
+		return self.get_courseName_display() + ':' + ' ' + self.bigIdea
 
 # Students can self-enrol their own details
 class Student(models.Model):
@@ -47,36 +47,30 @@ class Student(models.Model):
 	def __str__(self):
 		return self.last_name
 		
-class StudentForm(ModelForm):
-	class Meta:
-		model = Student
-		fields = ['emailaddy', 'first_name', 'last_name', 'SIN']
-	
 # This is the self-assessment. Students choose grade, course, "I can" statement
 # Students write a description of their artifact, and the significance of their artifact in relation to the CC
 class Evidence(models.Model):
 	corecomp = models.ForeignKey(CoreComp, on_delete=models.CASCADE)
 	bigidearubric = models.ForeignKey(BigIdeaRubric, on_delete=models.CASCADE)
-	student = models.ForeignKey(Student, on_delete=models.CASCADE)
-	done = models.BooleanField(default=False)
+#	student = models.ForeignKey(Student, on_delete=models.CASCADE)
+	done = models.BooleanField(default=True)
 	artifact = models.CharField(max_length=200)
 	signif = models.CharField(max_length=200)
 	dateAdded = models.DateTimeField('date added', blank=True)
 	def __str__(self):
 		return self.artifact
-		
+
 class EvidenceForm(ModelForm):
 	class Meta:
 		model = Evidence
-		fields = ['corecomp', 'bigidearubric', 'artifact', 'signif', 'dateAdded']
-		
+		fields = ['bigidearubric', 'corecomp', 'artifact', 'signif']
 
 # class Question(models.Model):
-    # question_text = models.CharField(max_length=200)
-    # pub_date = models.DateTimeField('date published')
-
-
+#     question_text = models.CharField(max_length=200)
+#     pub_date = models.DateTimeField('date published')
+#
+#
 # class Choice(models.Model):
-    # question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    # choice_text = models.CharField(max_length=200)
-    # votes = models.IntegerField(default=0)
+#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+#     choice_text = models.CharField(max_length=200)
+#     votes = models.IntegerField(default=0)

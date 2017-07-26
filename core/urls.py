@@ -1,15 +1,13 @@
 from django.conf.urls import url
 from . import views
-from core.views import EvidenceView
+from core.views import list_evidence_view, create_evidence_view
 
 app_name = 'core'
 urlpatterns = [
     # ex: /core/
     url(r'^$', views.index, name='index'),
-    # ex: /core/5/
     url(r'^(?P<corecomp_id>[0-9]+)/$', views.detail, name='detail'),
-    # ex: /core/submitted/
     url(r'^submitted', views.submitted, name='submitted'),
-    # ex: /core/CES/
-	url(r'^', EvidenceView.as_view(), name='evidence')
+	url(r'^evidence_form/$', create_evidence_view, name='evidence'),
+	url(r'^CES/$', list_evidence_view, name='CES')
 ]

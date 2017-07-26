@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+{% block body %}
+<div class = "container">
+    <div class = "twelve colums">
+        <h1>Thank you for your submission</h1>
+    </div>
+    <div class="row">
+        <div class="one-half column"><a href ="{% url 'core:evidence' %}" class="button" style="color:#999999">CLICK HERE TO SUBMIT EVIDENCE</a></div>
+        <div class="one-half column"><a href ="{% url 'core:CES' %}" class="button" style="color:#999999">CLICK HERE TO SEE SUBMISSIONS</a></div>
+    </div>
+</div>
+{% endblock %}
+
+
