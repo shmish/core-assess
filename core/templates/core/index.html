@@ -1,4 +1,24 @@
-{% if core_comp_list %}
+{% extends 'core/base.html' %}
+{% block body %}
+<div class = "container">
+    <div class="row">
+        <div class = "twelve colums">
+            <h1>CES: Claim, Evidence, Significance</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class = "twelve colums">
+            <p>Tracking your progress with core competencies.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="one-half column"><a href ="{% url 'core:evidence' %}" class="button" style="color:#999999">CLICK HERE TO SUBMIT EVIDENCE</a></div>
+        <div class="one-half column"><a href ="{% url 'core:CES' %}" class="button" style="color:#999999">CLICK HERE TO SEE SUBMISSIONS</a></div>
+    </div>
+</div>
+{% endblock %}
+
+<!--{% if core_comp_list %}
     <ul>
     {% for corecomp in core_comp_list %}
         <li><a href="{% url 'core:detail' corecomp.id %}">{{ corecomp.iCan }}</a></li>
@@ -6,4 +26,4 @@
     </ul>
 {% else %}
     <p>No polls are available.</p>
-{% endif %}
+{% endif %}-->
