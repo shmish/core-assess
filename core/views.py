@@ -50,6 +50,7 @@ create_evidence_view = EvidenceCreateView.as_view()
 # this view gives the overall picture/grid of the student's core competencies
 class EvidenceListView(ListView):
     model = Evidence
+    template_name = 'core/evidence_list.html'
 
     def get_context_data(self, **kwargs):
         context = super(EvidenceListView, self).get_context_data(**kwargs)
@@ -67,7 +68,6 @@ class EvidenceListView(ListView):
         for ev in evidences:
             ev.pkcore = ev.corecomp.pk
             ev.pkidea = ev.bigidearubric.pk
-            gridtest.append(ev.pkcore)
             ev.save()
         # create a list that is ordered for the corecompetencies and bigideas
         grid = []
@@ -105,7 +105,7 @@ class EvidenceListView(ListView):
         # context['length_core'] = length_core
         # context['length_big'] = length_big
         context['length_row'] = length_row
-        # context['tableGrid'] = tableGrid
+        context['tableGrid'] = tableGrid
         context['evidences'] = evidences
         context['grid'] = grid
         return context
