@@ -16,16 +16,10 @@
                     <th class="rotate"><div><span>{{ comps.iCan }}</span></div></th>
                 {% endfor %}
             </tr>
-            {% for ideas in bigideas %}
-                <tr>
-                    <td>{{ ideas.bigIdea }}</td>
-                    {% for comps in corecomps %}
-                        <td>{% if 1 < length %}
-                            H
-                        {% endif %}
-                        </td>
-                    {% endfor %}
-                </tr>
+            {% for item in tableGrid %}
+                {% if forloop.counter0|divisibleby:length_row %}<tr>{% endif %}
+                <td>{{ item }}</td>
+                {% if forloop.counter|divisibleby:length_row %}</tr>{% endif %}
             {% endfor %}
         </table>
         <!-- <ul>
