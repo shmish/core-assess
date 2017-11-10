@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="twelve columns">
+            <h1>Student List</h1>
+        </div>
+    </div>
+    <div class="row">
+        <table>
+            <tr>
+                <th>Big Ideas</th>
+                {% for comps in corecomps %}
+                    <th class="rotate"><div><span>{{ comps.iCan }}</span></div></th>
+                {% endfor %}
+            </tr>
+            {% for item in tableGrid %}
+                {% if forloop.counter0|divisibleby:length_row %}<tr>{% endif %}
+                <td>{{ item }}</td>
+                {% if forloop.counter|divisibleby:length_row %}</tr>{% endif %}
+            {% endfor %}
+        </table>
+        <!-- <ul>
+            {% for evidence in object_list %}
+            <li>{{ evidence.artifact }}</li>
+            {% endfor %}
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        </ul> -->
+    </div>
+
+</div>
+{% endblock %}
+

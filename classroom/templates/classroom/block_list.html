@@ -1,0 +1,125 @@
+{% extends 'classroom/base.html' %}
+
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="two columns">
+            <div id="djangorandom">
+            {{ classroom.id }}
+            <form action="{% url 'classroom:random' %}" method="get">
+                {% csrf_token %}
+                    <select name="class_block">
+                        {% for room in classroom %}
+                            <option value={{ room.course_block }}>{{ room.get_course_block_display }}</option>
+                        {% endfor %}
+                    </select>
+                <span><input type="submit" value="submit" /></span>
+            </form>
+            </div>
+        </div>
+        <div class="ten columns">
+                <button id="go">&raquo; Run</button>
+                <button id="stop">&raquo; Stop</button>
+        </div>
+    </div>
+
+
+</div>
+{% endblock body %}
+<div>
+{% block extra_js %}
+            <script>
+                var nameArray = {{ student_names | safe }}
+                console.log(nameArray);
+                var numberStudents = nameArray.length;
+                var interval;
+                var loopAllowed = false;
+
+                var vertGap = 30;
+
+                var divChoice = document.createElement('div');
+                divChoice.id = "choicename";
+                divChoice.style.position = "absolute";
+                divChoice.style.top = "570px";
+                divChoice.style.left  = "500px";
+                divChoice.innerHTML = " ";
+                document.body.appendChild(divChoice);
+
+                var setNames = function() {
+                    var h = 0;
+                    for(var n = 0; n < numberStudents; n++){
+                        var extraW = 0;
+                        var w = 0;
+                        var divName = "floatName" + n;
+                        var names = nameArray[n];
+                        var divTag = document.createElement('div');
+                        divTag.id = divName;
+                        divTag.innerHTML = names;
+                        divTag.style.position = "absolute";
+                        if (n < 16) {
+                            w = 0;
+                            divTag.style.top = (200 + n * vertGap) + "px";
+                        } else {
+                            w = 120;
+                            divTag.style.top = (200 + h * vertGap) + "px";
+                            h++;
+                        };
+                        divTag.style.left  = (50 + w) + "px";
+                        divTag.className = "randomFloat";
+                        document.body.appendChild(divTag);
+                        };
+                    };
+                setNames();
+                $( "#go" ).click(function() {
+                    console.log("it's go time");
+                    var cleanDiv = document.getElementById("choicename");
+                    cleanDiv.remove();
+                    loopAllowed = true;
+                    var max = 2;
+                    var loop = function(){
+                      for(var i = 0; i < (numberStudents + 1); i++){
+                        var divName = "floatName" + i;
+                        $( "#" + divName ).animate({
+                            left: (Math.random()*500+150) + "px",
+                            top: (Math.random()*350 + 350) + "px"
+                        }, 300, i === max - 1 && loopAllowed ? loop : undefined);
+                      }
+                     };
+                     loop();
+                    });
+
+                $( "#stop" ).click(function() {
+                    loopAllowed = false;
+                    choosePerson(0, numberStudents);
+                    setTimeout(clearDivs, 2000);
+
+                });
+
+                var clearDivs = function() {
+                    for(var i = 0; i < (numberStudents); i++) {
+                        divn = "floatName" + i;
+                        var elem = document.getElementById(divn);
+                        elem.remove();
+                        };
+                    setNames();
+                    };
+
+                function choosePerson (min, max) {
+                    min = Math.ceil(min);
+                    max = Math.floor(max);
+                    var rn = Math.floor(Math.random() * (max - min)) + min;
+                    console.log(rn);
+
+
+
+                    divChoice.innerHTML = nameArray[rn];
+                    document.body.appendChild(divChoice);
+
+                    };
+
+            </script>
+</div>
+{% endblock extra_js %}
+
+

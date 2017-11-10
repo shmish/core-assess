@@ -1,0 +1,59 @@
+from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
+from django.forms import ModelForm
+from django import forms
+import django_filters
+
+class Student(models.Model):
+    student_first = models.CharField(default='John', max_length=30)
+    student_last = models.CharField(default='Smith', max_length=30)
+    nickname = models.CharField(default='JohnS', max_length=31)
+    class_list = models.TextField()
+    attend = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        super(Student, self).save(*args, **kwargs)
+        # overrides the default save function to parse the class list
+        studentList = []
+        studentList = self.class_list.split('\n')
+        print (studentList)
+        for line in studentList:
+            line = line.strip('\r')
+            s = Student.objects.create(nickname = line)
+
+class Classroom(models.Model):
+    COURSE_NAME = (
+        ('MA8', 'Math 8'),
+        ('SC10', 'Science 10'),
+        ('PH11', 'Physics 11'),
+        ('PH12', 'Physics 12'),
+    )
+    BLOCK_NUMBER = (
+        ('11', 'Block 1-1'),
+        ('12', 'Block 1-2'),
+        ('13', 'Block 1-3'),
+        ('14', 'Block 1-4'),
+        ('21', 'Block 2-1'),
+        ('22', 'Block 2-2'),
+        ('23', 'Block 2-3'),
+        ('24', 'Block 2-4'),
+    )
+    course_name = models.CharField(max_length=20, choices=COURSE_NAME)
+    course_block = models.CharField(max_length=10, choices=BLOCK_NUMBER)
+    group_size = models.IntegerField(default=3)
+    students = models.ManyToManyField(Student)
+
+    def __str__(self):
+        return self.get_course_block_display()
+
+class StudentForm(ModelForm):
+    class Meta:
+        model = Student
+        fields = ['class_list']
+
+class RandomForm(ModelForm):
+    class Meta:
+        model = Student
+        fields = ['nickname', 'attend']
+
+
